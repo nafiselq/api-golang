@@ -2,13 +2,13 @@ package repository
 
 import (
 	"github.com/e-ziswaf/eziswaf-api/internal/app/commons"
-	"gopkg.in/gorp.v2"
+	"gorm.io/gorm"
 )
 
 // Option anything any repo object needed
 type Option struct {
 	commons.Options
-	DB *gorp.DbMap
+	DB *gorm.DB
 }
 
 // Repository all repo object injected here

@@ -3,10 +3,10 @@ package appcontext
 import (
 	"errors"
 
-	"github.com/gomodule/redigo/redis"
 	"github.com/e-ziswaf/eziswaf-api/config"
 	"github.com/e-ziswaf/eziswaf-api/internal/app/driver"
-	"gopkg.in/gorp.v2"
+	"github.com/gomodule/redigo/redis"
+	"gorm.io/gorm"
 )
 
 const (
@@ -30,21 +30,21 @@ func NewAppContext(config config.Provider) *AppContext {
 }
 
 // GetDBInstance getting gorp instance, param: dbType can be "mysql" or "postgre"
-func (a *AppContext) GetDBInstance(dbType string) (*gorp.DbMap, error) {
-	var gorpDbMap *gorp.DbMap
+func (a *AppContext) GetDBInstance(dbType string) (*gorm.DB, error) {
+	var gormDbMap *gorm.DB
 	var err error
 	switch dbType {
 	case DBDialectMysql:
 		dbOption := a.getMysqlOption()
-		gorpDbMap, err = driver.NewMysqlDatabase(dbOption)
+		gormDbMap, err = driver.NewMysqlDatabase(dbOption)
 	case DBDialectPostgres:
 		dbOption := a.getPostgreOption()
-		gorpDbMap, err = driver.NewPostgreDatabase(dbOption)
+		gormDbMap, err = driver.NewPostgreDatabase(dbOption)
 	default:
 		err = errors.New("Error get db instance, unknown db type")
 	}
 
-	return gorpDbMap, err
+	return gormDbMap, err
 }
 
 func (a *AppContext) getMysqlOption() driver.DBMysqlOption {

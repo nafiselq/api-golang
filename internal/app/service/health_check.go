@@ -19,7 +19,12 @@ func NewHealthCheck(opt Option) IHealthCheckService {
 }
 
 func (h *healthCheck) HealthCheckDbMysql() (err error) {
-	err = h.opt.DbMysql.Db.Ping()
+	dbObj, err := h.opt.DbMysql.DB()
+	if err != nil {
+		return
+	}
+
+	err = dbObj.Ping()
 	if err != nil {
 		// TODO: add logger (fatal err)
 		// TODO: mapping err to db error
@@ -28,7 +33,12 @@ func (h *healthCheck) HealthCheckDbMysql() (err error) {
 }
 
 func (h *healthCheck) HealthCheckDbPostgres() (err error) {
-	err = h.opt.DbPostgre.Db.Ping()
+	dbObj, err := h.opt.DbPostgre.DB()
+	if err != nil {
+		return
+	}
+
+	err = dbObj.Ping()
 	if err != nil {
 		// TODO: add logger (fatal err)
 		// TODO: mapping err to db error

@@ -25,7 +25,7 @@ password = "your_password"
 conn_open_max = 280 #maximum connection can be open
 conn_idle_max = 5 #maximum idle connection
 conn_lifetime_max = "0s" #maximum duration connection lifetime max
-additional_parameters = "charset=utf8&parseTime=True&loc=Asia%2fJakarta&time_zone=%27%2B07%3A00%27"
+additional_parameters = "charset=utf8&parseTime=True&loc=Asia%2FJakarta&time_zone=%27%2B07%3A00%27"
 
 [cache]
 is_enabled = false

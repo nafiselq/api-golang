@@ -1,0 +1,4 @@
+.idea
+
+# local config file
+params/eziswaf-api.toml

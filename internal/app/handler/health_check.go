@@ -7,7 +7,7 @@ import (
 // HealthCheckHandler object for health check handler
 type HealthCheckHandler struct {
 	HandlerOption
-	//http.Handler
+	// http.Handler
 }
 
 // NewHealtCheckHandler initialize new health check handler

@@ -4,16 +4,16 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/gomodule/redigo/redis"
-	"github.com/sirupsen/logrus"
-	"github.com/spf13/cobra"
 	"github.com/e-ziswaf/eziswaf-api/config"
 	"github.com/e-ziswaf/eziswaf-api/internal/app/appcontext"
 	"github.com/e-ziswaf/eziswaf-api/internal/app/commons"
 	"github.com/e-ziswaf/eziswaf-api/internal/app/repository"
 	"github.com/e-ziswaf/eziswaf-api/internal/app/server"
 	"github.com/e-ziswaf/eziswaf-api/internal/app/service"
-	"gopkg.in/gorp.v2"
+	"github.com/gomodule/redigo/redis"
+	"github.com/sirupsen/logrus"
+	"github.com/spf13/cobra"
+	"gorm.io/gorm"
 )
 
 // rootCmd represents the base command when called without any subcommands
@@ -50,7 +50,7 @@ func start() {
 
 	app := appcontext.NewAppContext(cfg)
 
-	var dbMysql *gorp.DbMap
+	var dbMysql *gorm.DB
 	if cfg.GetBool("mysql.is_enabled") {
 		dbMysql, err = app.GetDBInstance(appcontext.DBDialectMysql)
 		if err != nil {
@@ -59,7 +59,7 @@ func start() {
 		}
 	}
 
-	var dbPostgre *gorp.DbMap
+	var dbPostgre *gorm.DB
 	if cfg.GetBool("postgre.is_enabled") {
 		dbPostgre, err = app.GetDBInstance(appcontext.DBDialectPostgres)
 		if err != nil {

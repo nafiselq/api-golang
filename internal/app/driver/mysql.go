@@ -1,12 +1,12 @@
 package driver
 
 import (
-	"database/sql"
 	"fmt"
 	"time"
 
 	_ "github.com/go-sql-driver/mysql" // defines mysql driver used
-	"gopkg.in/gorp.v2"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 )
 
 // DBMysqlOption options for mysql connection
@@ -22,22 +22,26 @@ type DBMysqlOption struct {
 	ConnMaxLifetime      time.Duration
 }
 
-// NewMysqlDatabase return gorp dbmap object with MySQL options param
-func NewMysqlDatabase(option DBMysqlOption) (*gorp.DbMap, error) {
-	db, err := sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?%s", option.Username, option.Password, option.Host, option.Port, option.DBName, option.AdditionalParameters))
+// NewMysqlDatabase return gorm dbmap object with MySQL options param
+func NewMysqlDatabase(option DBMysqlOption) (*gorm.DB, error) {
+	db, err := gorm.Open(mysql.Open(fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?%s", option.Username, option.Password, option.Host, option.Port, option.DBName, option.AdditionalParameters)), &gorm.Config{})
 	if err != nil {
 		return nil, err
 	}
 
-	db.SetConnMaxLifetime(option.ConnMaxLifetime)
-	db.SetMaxIdleConns(option.MaxIdleConns)
-	db.SetMaxOpenConns(option.MaxOpenConns)
-
-	err = db.Ping()
+	mysqlDB, err := db.DB()
 	if err != nil {
 		return nil, err
 	}
 
-	gorp := &gorp.DbMap{Db: db, Dialect: gorp.MySQLDialect{}}
-	return gorp, nil
+	mysqlDB.SetConnMaxLifetime(option.ConnMaxLifetime)
+	mysqlDB.SetMaxIdleConns(option.MaxIdleConns)
+	mysqlDB.SetMaxOpenConns(option.MaxOpenConns)
+
+	err = mysqlDB.Ping()
+	if err != nil {
+		return nil, err
+	}
+
+	return db, nil
 }

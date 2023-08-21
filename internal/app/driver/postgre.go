@@ -1,10 +1,10 @@
 package driver
 
 import (
-	"database/sql"
 	"fmt"
 
-	"gopkg.in/gorp.v2"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
 // DBPostgreOption options for postgre connection
@@ -17,19 +17,24 @@ type DBPostgreOption struct {
 	MaxPoolSize int
 }
 
-// NewPostgreDatabase return gorp dbmap object with postgre options param
-func NewPostgreDatabase(option DBPostgreOption) (*gorp.DbMap, error) {
-	db, err := sql.Open("postgres", fmt.Sprintf("host=%s port=%d user=%s dbname=%s password=%s sslmode=disable", option.Host, option.Port, option.Username, option.DBName, option.Password))
+// NewPostgreDatabase return gorm dbmap object with postgre options param
+func NewPostgreDatabase(option DBPostgreOption) (*gorm.DB, error) {
+	db, err := gorm.Open(postgres.Open(fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%d sslmode=disable TimeZone=Asia/Jakarta", option.Host, option.Username, option.Password, option.DBName, option.Port)), &gorm.Config{})
 	if err != nil {
 		return nil, err
 	}
 
-	err = db.Ping()
+	pgsqlDB, err := db.DB()
 	if err != nil {
 		return nil, err
 	}
 
-	db.SetMaxOpenConns(option.MaxPoolSize)
-	gorp := &gorp.DbMap{Db: db, Dialect: gorp.PostgresDialect{}}
-	return gorp, nil
+	err = pgsqlDB.Ping()
+	if err != nil {
+		return nil, err
+	}
+
+	pgsqlDB.SetMaxOpenConns(option.MaxPoolSize)
+
+	return db, nil
 }

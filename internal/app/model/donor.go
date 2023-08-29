@@ -14,3 +14,7 @@ type Donor struct {
 	UpdatedAt   time.Time `json:"updated_at"`
 	LastUpdated time.Time `json:"last_updated"`
 }
+
+func (Donor) TableName() string {
+	return "donor"
+}

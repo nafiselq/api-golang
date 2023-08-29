@@ -8,6 +8,7 @@ import (
 )
 
 type IDonorService interface {
+	GetDonorByID(ctx context.Context, donorID uint64) (donor model.Donor, err error)
 }
 
 type DonorService struct {

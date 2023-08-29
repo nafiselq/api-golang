@@ -21,7 +21,7 @@ func NewDonorRepository(opt Option) IDonorRepository {
 }
 
 func (dr *DonorRepository) GetDonorByID(ctx context.Context, donorID uint64) (donor model.Donor, err error) {
-	result := dr.opt.DB.Where("id = ?", donorID).First(&donor)
+	result := dr.opt.DbPostgre.Where("id = ?", donorID).First(&donor)
 	if result.Error != nil {
 		// TODO: log
 		err = result.Error

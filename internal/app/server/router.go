@@ -3,9 +3,9 @@ package server
 import (
 	"net/http"
 
+	"github.com/e-ziswaf/eziswaf-api/internal/app/handler"
 	"github.com/go-chi/chi"
 	"github.com/rs/cors"
-	"github.com/e-ziswaf/eziswaf-api/internal/app/handler"
 )
 
 // Router a chi mux
@@ -22,6 +22,7 @@ func Router(opt handler.HandlerOption) *chi.Mux {
 
 	healthCheckHandler := handler.NewHealtCheckHandler(opt)
 	helloHandler := handler.NewHelloHandler(opt)
+	donorHandler := handler.NewDonorHandler(opt)
 
 	r := chi.NewRouter()
 	r.Use(corsOpt.Handler)
@@ -30,6 +31,8 @@ func Router(opt handler.HandlerOption) *chi.Mux {
 	r.Method(http.MethodGet, "/health/check", handler.HttpHandler{healthCheckHandler.Check})
 	r.Method(http.MethodGet, "/health/readiness", handler.HttpHandler{healthCheckHandler.Readiness})
 	r.Method(http.MethodGet, "/greet", handler.HttpHandler{helloHandler.Greet})
+
+	r.Method(http.MethodGet, "/donors/{donor-id}", handler.HttpHandler{donorHandler.GetDonorByID})
 
 	return r
 }

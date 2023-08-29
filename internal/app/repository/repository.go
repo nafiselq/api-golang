@@ -15,4 +15,5 @@ type Option struct {
 type Repository struct {
 	Cache  ICacheRepository
 	Person IPersonRepository
+	Donor  IDonorRepository
 }

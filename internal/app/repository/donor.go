@@ -7,7 +7,7 @@ import (
 )
 
 type IDonorRepository interface {
-	GetDonorDetailByID(ctx context.Context, donorID uint64) (donor model.Donor, err error)
+	GetDonorByID(ctx context.Context, donorID uint64) (donor model.Donor, err error)
 }
 
 type DonorRepository struct {
@@ -20,7 +20,7 @@ func NewDonorRepository(opt Option) IDonorRepository {
 	}
 }
 
-func (dr *DonorRepository) GetDonorDetailByID(ctx context.Context, donorID uint64) (donor model.Donor, err error) {
+func (dr *DonorRepository) GetDonorByID(ctx context.Context, donorID uint64) (donor model.Donor, err error) {
 	result := dr.opt.DB.Where("id = ?", donorID).First(&donor)
 	if result.Error != nil {
 		// TODO: log

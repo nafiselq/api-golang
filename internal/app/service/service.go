@@ -17,4 +17,5 @@ type Option struct {
 type Services struct {
 	HealthCheck IHealthCheckService
 	Hello       IHelloService
+	Donor       IDonorService
 }

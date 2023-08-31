@@ -23,6 +23,7 @@ func Router(opt handler.HandlerOption) *chi.Mux {
 	healthCheckHandler := handler.NewHealtCheckHandler(opt)
 	helloHandler := handler.NewHelloHandler(opt)
 	donorHandler := handler.NewDonorHandler(opt)
+	campaignHandler := handler.NewCampaignHandler(opt)
 
 	r := chi.NewRouter()
 	r.Use(corsOpt.Handler)
@@ -33,6 +34,8 @@ func Router(opt handler.HandlerOption) *chi.Mux {
 	r.Method(http.MethodGet, "/greet", handler.HttpHandler{helloHandler.Greet})
 
 	r.Method(http.MethodGet, "/donors/{donor-id}", handler.HttpHandler{donorHandler.GetDonorByID})
+
+	r.Method(http.MethodGet, "/campaigns/{campaign_id}", handler.HttpHandler{campaignHandler.GetCampaignByID})
 
 	return r
 }

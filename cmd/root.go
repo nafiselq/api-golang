@@ -108,11 +108,13 @@ func wiringRepository(repoOption repository.Option) *repository.Repository {
 	cacheRepo := repository.NewCacheRepository(repoOption)
 	personRepo := repository.NewPersonRepository(repoOption)
 	donorRepo := repository.NewDonorRepository(repoOption)
+	campaignRepo := repository.NewCampaignRepository(repoOption)
 
 	repo := repository.Repository{
-		Cache:  cacheRepo,
-		Person: personRepo,
-		Donor:  donorRepo,
+		Cache:    cacheRepo,
+		Person:   personRepo,
+		Donor:    donorRepo,
+		Campaign: campaignRepo,
 	}
 
 	return &repo
@@ -123,11 +125,13 @@ func wiringService(serviceOption service.Option) *service.Services {
 	hc := service.NewHealthCheck(serviceOption)
 	hello := service.NewHelloService(serviceOption)
 	donor := service.NewDonorService(serviceOption)
+	campaign := service.NewCampaignService(serviceOption)
 
 	svc := service.Services{
 		HealthCheck: hc,
 		Hello:       hello,
 		Donor:       donor,
+		Campaign:    campaign,
 	}
 
 	return &svc

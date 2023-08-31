@@ -18,4 +18,5 @@ type Services struct {
 	HealthCheck IHealthCheckService
 	Hello       IHelloService
 	Donor       IDonorService
+	Campaign    ICampaignService
 }

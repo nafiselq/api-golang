@@ -17,3 +17,7 @@ type Campaign struct {
 	UpdatedAt      time.Time
 	LastUpdated    time.Time
 }
+
+func (Campaign) TableName() string {
+	return "campaign"
+}

@@ -19,4 +19,5 @@ type Services struct {
 	Hello       IHelloService
 	Donor       IDonorService
 	Campaign    ICampaignService
+	Donation    IDonationService
 }

@@ -17,4 +17,6 @@ type Repository struct {
 	Person   IPersonRepository
 	Donor    IDonorRepository
 	Campaign ICampaignRepository
+	Donation IDonationRepository
+	Lembaga  ILembagaRepository
 }

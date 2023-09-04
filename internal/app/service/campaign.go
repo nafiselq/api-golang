@@ -33,7 +33,7 @@ func (cs *CampaignService) GetCampaignByID(ctx context.Context, campaignID uint6
 	resp.Title = campaign.Title
 	resp.BannerURL = campaign.BannerURL.String
 	resp.Description = campaign.Description.String
-	resp.DonationAmount = campaign.DonationAmount // TODO: add this field to migration
+	resp.TotalDonationAmount = campaign.TotalDonationAmount
 	// resp.Total = count result
 
 	return

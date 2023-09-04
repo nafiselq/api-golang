@@ -6,16 +6,16 @@ import (
 )
 
 type Campaign struct {
-	ID             uint64
-	LembagaID      uint64
-	StatusID       uint64
-	Title          string
-	DonationAmount float64
-	Description    sql.NullString
-	BannerURL      sql.NullString
-	CreatedAt      time.Time
-	UpdatedAt      time.Time
-	LastUpdated    time.Time
+	ID                  uint64
+	LembagaID           uint64
+	StatusID            uint64
+	Title               string
+	TotalDonationAmount float64
+	Description         sql.NullString
+	BannerURL           sql.NullString
+	CreatedAt           time.Time
+	UpdatedAt           time.Time
+	LastUpdated         time.Time
 }
 
 func (Campaign) TableName() string {

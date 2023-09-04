@@ -8,6 +8,7 @@ import (
 
 type IDonorRepository interface {
 	GetDonorByID(ctx context.Context, donorID uint64) (donor model.Donor, err error)
+	GetCountDonorByCampaignID(ctx context.Context, campaignID uint64)
 }
 
 type DonorRepository struct {
@@ -27,5 +28,9 @@ func (dr *DonorRepository) GetDonorByID(ctx context.Context, donorID uint64) (do
 		err = result.Error
 	}
 
+	return
+}
+
+func (dr *DonorRepository) GetCountDonorByCampaignID(ctx context.Context, campaignID uint64) {
 	return
 }

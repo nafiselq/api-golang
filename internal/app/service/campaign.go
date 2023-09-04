@@ -27,14 +27,19 @@ func (cs *CampaignService) GetCampaignByID(ctx context.Context, campaignID uint6
 		return
 	}
 
-	// TODO: Get donors count by campaign id
+	lembaga, err := cs.opt.Repository.Lembaga.GetLembagaByID(ctx, campaign.LembagaID)
+	if err != nil {
+		// TODO: Add log & split error between not found and other error
+		return
+	}
 
 	resp.ID = campaign.ID
 	resp.Title = campaign.Title
 	resp.BannerURL = campaign.BannerURL.String
 	resp.Description = campaign.Description.String
 	resp.TotalDonationAmount = campaign.TotalDonationAmount
-	// resp.Total = count result
+	resp.Lembaga.ID = lembaga.ID
+	resp.Lembaga.Name = lembaga.Name
 
 	return
 }

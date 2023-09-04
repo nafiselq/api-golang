@@ -8,7 +8,6 @@ import (
 
 type IDonorRepository interface {
 	GetDonorByID(ctx context.Context, donorID uint64) (donor model.Donor, err error)
-	GetCountDonorByCampaignID(ctx context.Context, campaignID uint64)
 }
 
 type DonorRepository struct {
@@ -31,6 +30,9 @@ func (dr *DonorRepository) GetDonorByID(ctx context.Context, donorID uint64) (do
 	return
 }
 
-func (dr *DonorRepository) GetCountDonorByCampaignID(ctx context.Context, campaignID uint64) {
-	return
-}
+// TODO: Decide whether we use this part or no
+// func (dr *DonorRepository) GetCountDonorByCampaignID(ctx context.Context, campaignID uint64) (result int64) {
+// 	count := dr.opt.DbPostgre.Table("donor").Select("count(distinct(name))").Where("camp")Count(&result)
+//
+// 	return
+// }

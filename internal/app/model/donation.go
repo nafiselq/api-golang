@@ -28,3 +28,7 @@ type DonationDetail struct {
 	CampaignTotalAmount float64 `gorm:"column:campaign_total_amount"`
 	CampaignLembagaID   uint64  `gorm:"column:campaign_lembaga_id"`
 }
+
+func (Donation) TableName() string {
+	return "donation"
+}

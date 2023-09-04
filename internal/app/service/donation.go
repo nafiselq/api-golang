@@ -24,7 +24,7 @@ func NewDonationService(opt Option) IDonationService {
 func (ds *DonationService) GetDonationDetail(ctx context.Context, donationID uint64) (resp payloads.GetDonationDetailByIDResp, err error) {
 	donationDetail, err := ds.opt.Repository.Donation.GetDonationDetailByID(ctx, donationID)
 	if err != nil {
-		// TODO: add log
+		// TODO: add lo
 		return
 	}
 

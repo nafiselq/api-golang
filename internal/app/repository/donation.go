@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/e-ziswaf/eziswaf-api/internal/app/model"
 )
@@ -41,6 +42,11 @@ func (dr *DonationRepository) GetDonationDetailByID(ctx context.Context, donatio
 	result := dr.opt.DbPostgre.WithContext(ctx).Raw(query, donationID).Scan(&donationDetail)
 	if result.Error != nil {
 		err = result.Error
+		return
+	}
+
+	if donationDetail.ID < 1 {
+		err = fmt.Errorf("Donation with ID %d not found", donationID)
 		return
 	}
 

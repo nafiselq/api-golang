@@ -1,6 +1,9 @@
 package builder
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"reflect"
+)
 
 // Response API response
 type Response struct {
@@ -30,7 +33,16 @@ func BuildResponse(respType string, data interface{}, statusCode int) interface{
 		resp := SuccessResp{}
 		resp.Status = "success"
 		resp.StatusCode = statusCode
-		resp.Data = data
+
+		if reflect.TypeOf(data).Kind() == reflect.Slice {
+			resp.Data = data
+		} else {
+			temp := []interface{}{
+				data,
+			}
+
+			resp.Data = temp
+		}
 
 		return resp
 	} else {

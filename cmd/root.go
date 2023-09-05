@@ -111,14 +111,16 @@ func wiringRepository(repoOption repository.Option) *repository.Repository {
 	campaignRepo := repository.NewCampaignRepository(repoOption)
 	donationRepo := repository.NewDonationRepository(repoOption)
 	lembagaRepo := repository.NewLembagaRepository(repoOption)
+	paymentMethodRepo := repository.NewPaymentMethodRepository(repoOption)
 
 	repo := repository.Repository{
-		Cache:    cacheRepo,
-		Person:   personRepo,
-		Donor:    donorRepo,
-		Campaign: campaignRepo,
-		Donation: donationRepo,
-		Lembaga:  lembagaRepo,
+		Cache:         cacheRepo,
+		Person:        personRepo,
+		Donor:         donorRepo,
+		Campaign:      campaignRepo,
+		Donation:      donationRepo,
+		Lembaga:       lembagaRepo,
+		PaymentMethod: paymentMethodRepo,
 	}
 
 	return &repo
@@ -131,13 +133,15 @@ func wiringService(serviceOption service.Option) *service.Services {
 	donor := service.NewDonorService(serviceOption)
 	campaign := service.NewCampaignService(serviceOption)
 	donation := service.NewDonationService(serviceOption)
+	paymentMethod := service.NewPaymentMethodService(serviceOption)
 
 	svc := service.Services{
-		HealthCheck: hc,
-		Hello:       hello,
-		Donor:       donor,
-		Campaign:    campaign,
-		Donation:    donation,
+		HealthCheck:   hc,
+		Hello:         hello,
+		Donor:         donor,
+		Campaign:      campaign,
+		Donation:      donation,
+		PaymentMethod: paymentMethod,
 	}
 
 	return &svc

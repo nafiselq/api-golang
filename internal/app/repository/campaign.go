@@ -22,6 +22,10 @@ func NewCampaignRepository(opt Option) ICampaignRepository {
 
 func (cr *CampaignRepository) GetCampaignByID(ctx context.Context, campaignID uint64) (campaign model.Campaign, err error) {
 	result := cr.opt.DbPostgre.WithContext(ctx).First(&campaign, campaignID)
-	err = result.Error
+	if err != nil {
+		err = result.Error
+		return
+	}
+
 	return
 }

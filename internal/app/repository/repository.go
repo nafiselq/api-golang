@@ -13,10 +13,11 @@ type Option struct {
 
 // Repository all repo object injected here
 type Repository struct {
-	Cache    ICacheRepository
-	Person   IPersonRepository
-	Donor    IDonorRepository
-	Campaign ICampaignRepository
-	Donation IDonationRepository
-	Lembaga  ILembagaRepository
+	Cache         ICacheRepository
+	Person        IPersonRepository
+	Donor         IDonorRepository
+	Campaign      ICampaignRepository
+	Donation      IDonationRepository
+	Lembaga       ILembagaRepository
+	PaymentMethod IPaymentMethodRepository
 }

@@ -22,11 +22,6 @@ func NewDonationRepository(opt Option) IDonationRepository {
 }
 
 func (dr *DonationRepository) GetDonationDetailByID(ctx context.Context, donationID uint64) (donationDetail model.DonationDetail, err error) {
-	// result := dr.opt.DbPostgre.WithContext(ctx).First(&donationDetail, donationID) // join
-	// if result.Error != nil {
-	// 	err = result.Error
-	// }
-
 	query := `SELECT d.id, d.amount, d.status_id, d.campaign_id, d.payment_method_id, 
        	ds.name donation_status_name,  
        	pm.name payment_method_name, 
@@ -45,7 +40,7 @@ func (dr *DonationRepository) GetDonationDetailByID(ctx context.Context, donatio
 		return
 	}
 
-	if donationDetail.ID < 1 {
+	if donationDetail.ID < 1 || result.RowsAffected < 1 {
 		err = fmt.Errorf("Donation with ID %d not found", donationID)
 		return
 	}

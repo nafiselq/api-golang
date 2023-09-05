@@ -36,6 +36,12 @@ type LembagaResp struct {
 }
 
 type PaymentMethodResp struct {
-	ID   uint64 `json:"id"`
-	Name string `json:"name"`
+	ID          uint64  `json:"id"`
+	Name        string  `json:"name"`
+	BankCode    string  `json:"bank_code,omitempty"`
+	Type        string  `json:"type,omitempty"`
+	IsEnabled   bool    `json:"is_enabled,omitempty"`
+	FixedFee    float32 `json:"fixed_fee,omitempty"`
+	VariableFee float32 `json:"variable_fee,omitempty"`
+	Logo        string  `json:"logo,omitempty"`
 }

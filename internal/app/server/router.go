@@ -25,6 +25,7 @@ func Router(opt handler.HandlerOption) *chi.Mux {
 	donorHandler := handler.NewDonorHandler(opt)
 	campaignHandler := handler.NewCampaignHandler(opt)
 	donationHandler := handler.NewDonationHandler(opt)
+	paymentMethodHandler := handler.NewPaymentMethodHandler(opt)
 
 	r := chi.NewRouter()
 	r.Use(corsOpt.Handler)
@@ -39,6 +40,8 @@ func Router(opt handler.HandlerOption) *chi.Mux {
 	r.Method(http.MethodGet, "/campaigns/{campaign_id}", handler.HttpHandler{campaignHandler.GetCampaignByID})
 
 	r.Method(http.MethodGet, "/donations/{donation_id}", handler.HttpHandler{donationHandler.GetDonationByID})
+
+	r.Method(http.MethodGet, "/payment-methods", handler.HttpHandler{paymentMethodHandler.GetPaymentMethodList})
 
 	return r
 }

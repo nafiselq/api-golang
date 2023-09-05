@@ -59,6 +59,9 @@ insecure_skip_verify = false
 is_enabled = false
 route = "graphql"
 
+[xendit]
+api_key = "your_api_key"
+
 [response_code]
     [response_code.EN]
         101001 = "Database connection error"

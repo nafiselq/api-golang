@@ -10,6 +10,7 @@ import (
 	"github.com/e-ziswaf/eziswaf-api/internal/app/repository"
 	"github.com/e-ziswaf/eziswaf-api/internal/app/server"
 	"github.com/e-ziswaf/eziswaf-api/internal/app/service"
+	"github.com/e-ziswaf/eziswaf-api/internal/pkg/third_party/xendit"
 	"github.com/gomodule/redigo/redis"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
@@ -79,6 +80,12 @@ func start() {
 		defer cacheConn.Close()
 	}
 
+	var xenditClient xendit.IXenditClient
+	xenditClientPkg := xendit.XenditClient{
+		ApiKey: cfg.GetString("xendit.api_key"),
+	}
+	xenditClient = xendit.NewXenditClient(xenditClientPkg)
+
 	opt := commons.Options{
 		AppCtx:         app,
 		ProviderConfig: cfg,
@@ -86,6 +93,7 @@ func start() {
 		DbMysql:        dbMysql,
 		DbPostgre:      dbPostgre,
 		CachePool:      cache,
+		XenditClient:   xenditClient,
 	}
 
 	repo := wiringRepository(repository.Option{

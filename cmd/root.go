@@ -81,10 +81,11 @@ func start() {
 	}
 
 	var xenditClient xendit.IXenditClient
-	xenditClientPkg := xendit.XenditClient{
-		ApiKey: cfg.GetString("xendit.api_key"),
+	xenditCfg := xendit.XenditClient{
+		ApiKey:  cfg.GetString("xendit.api_key"),
+		BaseURL: cfg.GetString("xendit.base_url"),
 	}
-	xenditClient = xendit.NewXenditClient(xenditClientPkg)
+	xenditClient = xendit.NewXenditClient(xenditCfg)
 
 	opt := commons.Options{
 		AppCtx:         app,

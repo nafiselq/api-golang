@@ -61,7 +61,6 @@ route = "graphql"
 
 [xendit]
 api_key = "your_api_key"
-base_url = "https://api.xendit.co"
 
 [response_code]
     [response_code.EN]

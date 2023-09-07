@@ -3,7 +3,6 @@ package commons
 import (
 	"github.com/e-ziswaf/eziswaf-api/config"
 	"github.com/e-ziswaf/eziswaf-api/internal/app/appcontext"
-	"github.com/e-ziswaf/eziswaf-api/internal/pkg/third_party/xendit"
 	"github.com/gomodule/redigo/redis"
 	"gorm.io/gorm"
 )
@@ -16,5 +15,4 @@ type Options struct {
 	DbMysql        *gorm.DB
 	DbPostgre      *gorm.DB
 	CachePool      *redis.Pool
-	XenditClient   xendit.IXenditClient
 }

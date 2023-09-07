@@ -12,7 +12,6 @@ require (
 	github.com/sirupsen/logrus v1.7.0
 	github.com/spf13/cobra v1.7.0
 	github.com/spf13/viper v1.8.1
-	github.com/xendit/xendit-go v1.0.25 // indirect
 	golang.org/x/crypto v0.12.0 // indirect
 	gorm.io/driver/mysql v1.5.1
 	gorm.io/driver/postgres v1.5.2

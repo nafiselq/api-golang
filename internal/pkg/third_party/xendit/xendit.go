@@ -35,7 +35,7 @@ func NewXenditClient(xenditClient XenditClient) IXenditClient {
 	return &xenditClient
 }
 
-func (xc *XenditClient) newXenditRequest(ctx context.Context, path, httpMethod string, headers map[string]string, reqPayload []byte) (respPayload []byte, reqIDHeader string, err *Error) {
+func (xc *XenditClient) newXenditRequest(ctx context.Context, path, httpMethod string, headers map[string]string, reqPayload []byte) (respPayload []byte, err *Error) {
 	var request *http.Request
 	if !strings.HasPrefix(path, "/") {
 		path = "/" + path
@@ -44,7 +44,7 @@ func (xc *XenditClient) newXenditRequest(ctx context.Context, path, httpMethod s
 	requestUrl := xc.BaseURL + path
 	request, errNewRequest := http.NewRequestWithContext(ctx, httpMethod, requestUrl, bytes.NewReader(reqPayload))
 	if errNewRequest != nil {
-		return nil, "", FromGoErr(http.StatusInternalServerError, errNewRequest)
+		return []byte{}, FromGoErr(http.StatusInternalServerError, errNewRequest)
 	}
 
 	request.SetBasicAuth(xc.ApiKey, "")
@@ -57,20 +57,18 @@ func (xc *XenditClient) newXenditRequest(ctx context.Context, path, httpMethod s
 
 	resp, errDoReq := xc.HTTPClient.Do(request)
 	if err != nil {
-		return nil, "", FromGoErr(http.StatusInternalServerError, errDoReq)
+		return []byte{}, FromGoErr(http.StatusInternalServerError, errDoReq)
 	}
 	defer resp.Body.Close()
 
 	respPayload, errRead := io.ReadAll(resp.Body)
 	if errRead != nil {
-		return nil, "", FromGoErr(http.StatusInternalServerError, errRead)
+		return []byte{}, FromGoErr(http.StatusInternalServerError, errRead)
 	}
 
 	if resp.StatusCode < http.StatusOK || resp.StatusCode > 299 {
-		return nil, "", FromHTTPErr(resp.StatusCode, respPayload)
+		return []byte{}, FromHTTPErr(resp.StatusCode, respPayload)
 	}
-
-	reqIDHeader = resp.Header.Get("Request-ID")
 
 	// TODO: add more log for error
 

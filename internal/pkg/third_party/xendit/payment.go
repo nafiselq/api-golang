@@ -38,7 +38,6 @@ type VirtualAccountResp struct {
 	IsClosed       bool   `json:"is_closed"`
 	ExpectedAmount uint64 `json:"expected_amount"`
 	ExpiresAt      string `json:"expiration_date"`
-	RequestID      string `json:"-"`
 }
 
 type CreateQRCodePaymentReq struct {
@@ -62,7 +61,6 @@ type QRCodeResp struct {
 	ExpiresAt   *time.Time `json:"expires_at"`
 	Created     *time.Time `json:"created"`
 	Updated     *time.Time `json:"updated"`
-	RequestID   string     `json:"-"`
 }
 
 func (xc *XenditClient) CreateFixedVAPayment(ctx context.Context, createVaReq *CreateFixedVAPaymentReq) (resp *VirtualAccountResp, err *Error) {
@@ -71,7 +69,7 @@ func (xc *XenditClient) CreateFixedVAPayment(ctx context.Context, createVaReq *C
 		return nil, FromGoErr(http.StatusInternalServerError, errMarshal)
 	}
 
-	result, requestID, err := xc.newXenditRequest(ctx, createFixedVAPayment, http.MethodPost, nil, reqByte)
+	result, err := xc.newXenditRequest(ctx, createFixedVAPayment, http.MethodPost, nil, reqByte)
 	if err != nil {
 		return
 	}
@@ -80,8 +78,6 @@ func (xc *XenditClient) CreateFixedVAPayment(ctx context.Context, createVaReq *C
 	if err != nil {
 		return nil, FromGoErr(http.StatusInternalServerError, errUnmarshal)
 	}
-
-	resp.RequestID = requestID
 
 	// TODO: add info log (respbody + statusCode)
 
@@ -94,12 +90,12 @@ func (xc *XenditClient) CreateQRCodePayment(ctx context.Context, createQRReq *Cr
 		return nil, FromGoErr(http.StatusInternalServerError, errMarshal)
 	}
 
-	reqHeaders := map[string]string{
+	headers := map[string]string{
 		"api-version":     "2022-07-31",
 		"idempotency-key": createQRReq.ReferenceID,
 	}
 
-	result, requestID, err := xc.newXenditRequest(ctx, createQRCodePayment, http.MethodPost, reqHeaders, reqByte)
+	result, err := xc.newXenditRequest(ctx, createQRCodePayment, http.MethodPost, headers, reqByte)
 	if err != nil {
 		return
 	}
@@ -108,8 +104,6 @@ func (xc *XenditClient) CreateQRCodePayment(ctx context.Context, createQRReq *Cr
 	if err != nil {
 		return nil, FromGoErr(http.StatusInternalServerError, errUnmarshal)
 	}
-
-	resp.RequestID = requestID
 
 	// TODO: add info log (respbody + statusCode)
 
